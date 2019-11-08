@@ -1,0 +1,33 @@
+module(v0.2.3)({ compileFlags, environment: { variables: { profile } } }){
+   let mod1 = use("@dazzlebyte/reuseable/button");
+   let mod2 = use("~/reuseable/theme");
+   let mod3 = use("todo-item");
+
+   type User = {
+      id: String,
+      name: String,
+   };
+
+   hook getUserById(id) {
+      let ( user, setUser ) = useState<Option<Result<User, FetchError>>>(None);
+
+      let response = await useFetch(`/api/users/${id}`, ( id ) );
+   };
+
+   component ExampleComponent({ name, id }){
+
+   };
+
+   return {
+      getUserById,
+      ExampleComponent
+   };
+}
+
+tests({ describe, it}, {getUserById, ExampleComponent}){
+
+}
+
+stories({createStory}, { ExampleComponent }){
+
+}
