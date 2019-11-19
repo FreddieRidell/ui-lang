@@ -1,0 +1,66 @@
+use(@std/~fetch/fetch){ fetch, useFetch, FetchError };
+use(@std/~i18n/translations){ useTranslator, Translator };
+use(@std/~style/style){ StyleRules };
+use(@std/~ui/elements){ View, Text, Image };
+
+// type StyleRules = Map<Symbol, CssValue>
+
+use(theme){ Theme, useTheme };
+
+export function formatQuery<T>(input:T): string {
+	let str: string = input.toString();
+
+	return str;
+   }
+
+
+public export function callExampleApi<Q, R>(urlInput: string, query: Q): Promise<Option<Result<R, FetchError>>> {
+	let queryStr: string = formatQuery(query);
+	
+	let url = `/api/1/${url}`;
+
+	let response: Option<Result<R, FetchError>> = await useFetch(url, { body: queryStr });
+
+	return response;
+}
+
+public export hook useExampleApi<Q, R>(urlInput: string, query: Q): Option<Result<R, FetchError>> {
+	let queryStr: string = formatQuery(query);
+	
+	let url = `/api/1/${url}`;
+
+	let response: Option<Result<R, FetchError>> = useFetch(url, { body: queryStr });
+
+	return response;
+}
+
+public export component FetchSpinner({ isLoading, }) {
+	let theme: Theme = useTheme();
+	let translator: Translator = useTranslator();
+
+	let spinnerContainerStyle: Style = {|
+		width: 40px,
+		height: 40px,
+		backgroundColor: theme.colors.background,
+		flexDirection: column,
+		alignItems: center,
+		justifyContents: center,
+	|};
+
+	let spinnerTextStyle: Style = {|
+		fontSize: 12px,
+		textColor: theme.colors.text,
+	|};
+	
+	let spinnerImageStyle: Style = {|
+		width: 20px,
+		height: 20px,
+	|};
+
+	return (
+		<View style={spinnerContainerStyle}>
+			<Image style={spinnerImageStyle} alt="spinner image"/>
+			<Text style={spinnerTextStyle}>{translator("""network.loading""")}</Text>
+		</View>
+	);
+}

@@ -1,0 +1,24 @@
+use(@std/~style/color){ Color };
+use(@std/~context/context){ createContext, ProvideContext, useContext };
+
+public export type Theme = {
+   colors: {
+      background: Color,
+      text: Color,
+   }
+};
+
+public export hook useTheme(): Theme {
+   return useContext(Theme);
+}
+
+public export component ThemeProvider() {
+   let defaultValue: Theme = {
+      colors: {
+         background: #ffbbaa,
+         text: #001122
+      }
+   };
+
+   return <ProvideContext type={Theme} defaultValue = { defaultValue } />
+}

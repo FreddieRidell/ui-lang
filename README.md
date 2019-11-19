@@ -1,6 +1,6 @@
 # UI Lang
 
-> Somewhere to sketch my ideas for what a ui language to suplant react might look like
+> Somewhere to sketch my ideas for what a ui language to supplant react might look like
 
 ## Ideas
 
@@ -9,6 +9,7 @@
 - cross platform
 - first class testing suport
 - curried
+- built in support for (de)serialising to strings and json
 - compiled (eventually, lets start with an interpreter?)
 - multiple modules per repo
 
@@ -23,8 +24,9 @@
   - number
   - string
   - date
+  - identifier (string hashed at compile time with module path)
 - collecitons
-  - struct ( normal and tuple )
+  - struct ( keyed and tuple )
   - array
   - set
   - map
@@ -40,45 +42,7 @@
 - other
   - enum (algebraic, like ocaml or rust)
   - semver (first class suport for semver objects)
+  - types are a first class runtime concepts
+  - compilerSymbol (a way to extend the language using compile time conversions from strings to types)
 
-## Modules
-
-A given repo is unlikely to contain only one `module`, it will instead likely contain one `project`
-
-```
-// src/example-component.ui
-
-module(v0.2.3)({ compileFlags, environment: { variables: { profile } } }){
-   let mod1 = use("@dazzlebyte/reuseable/button");
-   let mod2 = use("~/reuseable/theme");
-   let mod3 = use("todo-item");
-
-   type User = {
-      id: String,
-      name: String,
-   };
-
-   hook getUserById(id) {
-      let ( user, setUser ) = useState<Option<Result<User, FetchError>>>(None);
-
-      let response = await useFetch(`/api/users/${id}`, ( id ) );
-   };
-
-   component ExampleComponent({ name, id }){
-
-   };
-
-   return {
-      getUserById,
-      ExampleComponent
-   };
-}
-
-tests({ describe, it}, {getUserById, ExampleComponent}){
-
-}
-
-stories({createStory}, { ExampleComponent }){
-
-}
-```
+### Would it be possible to define typesafe runtime conversions between types?

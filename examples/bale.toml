@@ -1,0 +1,13 @@
+[bale]
+name="multi-project-utilities"
+owner="freddie-ridell"
+version="v1.2.3"
+
+[modules]
+dir="./src"
+
+[dependencies.std]
+fetch="0.1"
+i18n="0.1"
+style="0.1"
+ui="0.1"

@@ -1,0 +1,61 @@
+use(@std/~io/log){ log };
+use(@std/~hooks/basic){ useEffect, useState };
+use(@std/~ui/elements){ View, Text, TextInput, Button };
+
+use(theme){ Theme, useTheme };
+use(network-primitives){ callExampleApi, useExampleApi, FetchSpinner };
+
+enum UserRole = {
+   Reader,
+   Author,
+   Editor,
+   Admin,
+};
+   
+type User = {
+   name: String,
+   role: UserRole
+   email: String,
+};
+
+type LoginRequest = {
+   username: String,
+   password: String,
+};
+
+#[ to(String), from(Json), ]
+type LoginResponse = {
+   loginSuccessful: boolean,
+   token: Option<String>
+}
+
+function onLogin(username: string, password: string, e: ()) {
+   const response: LoginResponse = await callExampleApi<LoginRequest, LoginResponse>(
+      "login",
+      { username, password }
+   );
+
+   await log(response);
+}
+
+export public component LoginForm() {
+   let (username, setUsername) = useState<String>("");
+   let (password, setPassword) = useState<String>("");
+
+      return (
+         <View>
+            <TextInput 
+               value = {username}
+               onChange = {setUsername}
+            />
+            <TextInput
+               value = {password}
+               onChange = {setPassword}
+            />
+            <Button onClick={onLogin(username, password)} >
+               <Text>{translator("""login.loginButton""")}</Text>
+            </Button>
+         </View>
+      );
+   
+}
